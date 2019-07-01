@@ -16,17 +16,13 @@ public class FlappyBird extends ApplicationAdapter {
 
 	private GameStateManager gsm;
 	private SpriteBatch batch;
-	private Music music;
+
 
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
-		music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
-		music.setLooping(true);
-		music.setVolume(0.1f);
-		music.play();
 		gsm.push(new MenuState(gsm));
 		Gdx.gl.glClearColor(1,0,0,1);
 	}
@@ -41,7 +37,6 @@ public class FlappyBird extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
-		music.dispose();
 		batch.dispose();
 	}
 }

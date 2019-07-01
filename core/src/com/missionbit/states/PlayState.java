@@ -1,6 +1,7 @@
 package com.missionbit.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -14,6 +15,7 @@ public class PlayState extends State {
     private static final int TUBE_COUNT = 4;
     private static final int GROUND_Y_OFFSET = -50;
 
+    private Music music;
     private Bird bird;
     private Texture background;
     private Texture ground;
@@ -23,10 +25,6 @@ public class PlayState extends State {
     public PlayState(GameStateManager gsm) {
         super(gsm);
         bird = new Bird(50,300);
-        cam.setToOrtho(
-                false,
-                FlappyBird.WIDTH / 2,
-                FlappyBird.HEIGHT / 2);
         background = new Texture("bg.png");
         ground = new Texture("ground.png");
         groundPosition1 = new Vector2(cam.position.x - cam.viewportWidth/2, GROUND_Y_OFFSET);
@@ -35,6 +33,10 @@ public class PlayState extends State {
         for (int i = 1; i <=  TUBE_COUNT; i++) {
             tubes.add(new Tube(i * (TUBE_SPACING + Tube.TUBE_WIDTH)));
         }
+        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        music.setLooping(true);
+        music.setVolume(0.1f);
+        music.play();
     }
 
     @Override
@@ -46,8 +48,10 @@ public class PlayState extends State {
 
     @Override
     public void update(float dt) {
-        handleInput();
+        super.update(dt);
+
         updateGround();
+
         bird.update(dt);
 
         for (int i = 0; i < tubes.size; i++) {
@@ -59,12 +63,12 @@ public class PlayState extends State {
             }
 
             if (tube.collides(bird.getBounds())){
-                gsm.set(new PlayState(gsm));
+                gsm.set(new GameOverState(gsm));
             }
         }
 
         if (bird.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET){
-            gsm.set(new PlayState(gsm));
+            gsm.set(new GameOverState(gsm));
         }
 
         cam.position.x = bird.getPosition().x + 80;
@@ -74,10 +78,9 @@ public class PlayState extends State {
 
     @Override
     public void render(SpriteBatch sb) {
-        sb.setProjectionMatrix(cam.combined);
+        super.render(sb);
+
         sb.begin();
-
-
         // Start Drawing
         sb.draw(background, cam.position.x - (cam.viewportWidth/2), 0);
         sb.draw(bird.getTexture(), bird.getPosition().x, bird.getPosition().y);
@@ -106,6 +109,8 @@ public class PlayState extends State {
              ) {
             tube.dispose();
         }
+        music.stop();
+        music.dispose();
         System.out.println("Play State Disposed");
     }
 

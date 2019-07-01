@@ -3,6 +3,7 @@ package com.missionbit.states;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.missionbit.flappybird.FlappyBird;
 
 public abstract class State {
     protected OrthographicCamera cam;
@@ -16,10 +17,18 @@ public abstract class State {
         gsm = value;
         cam = new OrthographicCamera();
         mouse = new Vector3();
+        cam.setToOrtho(
+                false,
+                FlappyBird.WIDTH / 2,
+                FlappyBird.HEIGHT / 2);
     }
 
     public abstract void handleInput();
-    public abstract void  update(float dt);
-    public abstract void render(SpriteBatch sb);
+    public void update(float dt) {
+        handleInput();
+    }
+    public void render(SpriteBatch sb) {
+        sb.setProjectionMatrix(cam.combined);
+    }
     public abstract void dispose();
 }
