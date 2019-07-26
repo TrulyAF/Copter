@@ -8,8 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Bird {
 
-    private static final int GRAVITY = -15;
-    private static final int MOVEMENT = 100;
+    private static final int GRAVITY = -10;
+    private static final int MOVEMENT = 200;
     private static final int BOUNCE = -20;
     private Rectangle bounds;
     private Animation birdAnimation;
@@ -39,7 +39,7 @@ public class Bird {
         position = new Vector2(x,y);
         collided = false;
         velocity = new Vector2(0,0);
-        texture = new Texture("birdanimation.png");
+        texture = new Texture("heli.png");
         birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
         bounds = new Rectangle(position.x, position.y, texture.getWidth() / 3, texture.getHeight());
         flap = Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg"));

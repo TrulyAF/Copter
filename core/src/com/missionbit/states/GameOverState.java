@@ -18,7 +18,7 @@ public class GameOverState extends State {
                 false,
                 FlappyBird.WIDTH / 2,
                 FlappyBird.HEIGHT / 2);
-        background = new Texture("bg.png");
+        background = new Texture("dirt.png");
         playButton = new Texture("playbtn.png");
         gameOver = new Texture("gameover.png");
     }

@@ -37,8 +37,8 @@ public class Tube {
     }
 
     public Tube(float x) {
-        this.topTube = new Texture("toptube.png");
-        this.bottomTube = new Texture("bottomtube.png");
+        this.topTube = new Texture("tube.png");
+        this.bottomTube = new Texture("tube.png");
         rand = new Random();
 
         posTopTube = new Vector2(
